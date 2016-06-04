@@ -3,6 +3,16 @@
 /* Controller */
 angular.module('myApp.controllers', []).
 	controller('AppCtrl', function ($scope, $http) {
-		// Insert controller code here
+		$scope.styleCode;
+		$scope.apparelColors = [
+			{color:"red"},
+			{color:"blue"},
+			{color:"green"},
+			{color:"black"},
+			{color:"white"}
+		];
+		$scope.chosenColor;
+		$scope.apparelSize;
+		$scope.quantity;
 		
 	});
