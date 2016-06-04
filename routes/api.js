@@ -6,6 +6,7 @@ var https       = require('https');
 var q           = require('q');
 var api         = express.Router();
 var db          = require('../config/db').connection;
+var parseString = require('xml2js').parseString;
 
 // API endpoint for /api/apparel
 api.get('/api/apparel/:styleCode?', function(req, res) {
@@ -26,7 +27,9 @@ var getApparelPrice = function getPrice(style_code, color_code, size_code) {
 	// Format the Inventory API endpoint as explained in the documentation
 	https.get('// INSERT INVENTORY API END POINT', function(res) {
 		res.on('data', function (data) {
-			// Parse response XML data here
+			parseString(data, function (err, result) {
+				console.dir(result);
+			});
 
 		});
 	}).on('error', function(error) {
