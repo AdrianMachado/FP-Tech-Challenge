@@ -17,6 +17,37 @@ api.get('/api/apparel/:styleCode?', function(req, res) {
 // API endpoint for /api/quote
 api.post('/api/quote', function(req, res) {
 	// Insert Quoting API code here
+	var baseItem = getPrice(req.styleCode, req.colorCode, req.sizeCode);
+	var price = baseItem.item.price;
+	var SALESMAN_COMPENSATION = 1.07;
+	var orderTotal;
+	if(basePrice.item.size_code <= 0.4) {
+		if(req.quantity < 48){
+			price += 1;
+		}
+		else {
+			price += 0.75;
+		}
+	}
+	else {
+		if(req.quantity < 48){
+			price += 0.5;
+		}
+		else {
+			price += 0.25;
+		}
+	}
+
+	price = price * SALESMAN_COMPENSATION;
+	orderTotal = price * req.quantity;
+
+	if(orderTotal <= 800){
+		orderTotal += orderTotal * 0.5;
+	}
+	else {
+		orderTotal += orderTotal * 0.45;
+	}
+
 
 });
 
@@ -29,6 +60,7 @@ var getApparelPrice = function getPrice(style_code, color_code, size_code) {
 		res.on('data', function (data) {
 			parseString(data, function (err, result) {
 				console.dir(result);
+				apparelPriceDeferred.promise = data;
 			});
 
 		});

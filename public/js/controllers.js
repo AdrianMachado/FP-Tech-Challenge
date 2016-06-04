@@ -18,8 +18,8 @@ angular.module('myApp.controllers', []).
 		];
 		$scope.formData = [
 			{styleCode:0},
-			{color:0},
-			{size:0},
+			{colorCode:0},
+			{sizeCode:0},
 			{quantity:0}
 		]
 		$scope.chosenSize;
@@ -29,7 +29,7 @@ angular.module('myApp.controllers', []).
 		$scope.quote = function(){
 			$http.post("/api/quote", $scope.formData)
 			.success(function(data){
-
+				
 			})
 			.error(function(data){
 
