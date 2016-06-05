@@ -10,18 +10,25 @@ var parseString = require('xml2js').parseString;
 
 // API endpoint for /api/apparel
 api.get('/api/apparel/:styleCode?', function(req, res) {
-	// Insert Apparel API code here
+	//db.connect();
+	db.query("SELECT * FROM apparel", function(err, rows, fields){
+		console.log(rows);
+		console.log(err);
+		res.json(rows);
+	});
+
+	//db.end();
 
 });
 
 // API endpoint for /api/quote
 api.post('/api/quote', function(req, res) {
 	// Insert Quoting API code here
-	var baseItem = getPrice(req.styleCode, req.colorCode, req.sizeCode);
+	var baseItem = getApparelPrice(req.styleCode, req.colorCode, req.sizeCode);
 	var price = baseItem.item.price;
 	var SALESMAN_COMPENSATION = 1.07;
 	var orderTotal;
-	if(basePrice.item.size_code <= 0.4) {
+	if(baseItem.item.size_code <= 0.4) {
 		if(req.quantity < 48){
 			price += 1;
 		}
@@ -48,6 +55,9 @@ api.post('/api/quote', function(req, res) {
 		orderTotal += orderTotal * 0.45;
 	}
 
+	res.json(orderTotal);
+
+
 
 });
 
@@ -56,7 +66,7 @@ var getApparelPrice = function getPrice(style_code, color_code, size_code) {
 	var	apparelPriceDeferred = q.defer();
 
 	// Format the Inventory API endpoint as explained in the documentation
-	https.get('// INSERT INVENTORY API END POINT', function(res) {
+	https.get('https://www.alphashirt.com/cgi-bin/online/xml/invrequest.w?sr='+ style_code + '&cc=' + color_code + '&sc=' + size_code + '&pr=y&zp=20176&userName=testname&password=testpw', function(res) {
 		res.on('data', function (data) {
 			parseString(data, function (err, result) {
 				console.dir(result);

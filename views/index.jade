@@ -13,20 +13,25 @@ html.
 			<h2>Vertical (basic) form</h2>
 				<form role="form">
 					<div class="form-group">
-						<label for="style">Style Code:</label>
-						<input type="text" ng-model="formData.styleCode" class="form-control" id="style" placeholder="Enter a style code" required="true">
+						<label for="brand">Brand:</label>
+						<select ng-model="apparelId" ng-change=""class="form-control" id="brand" placeholder="Select a brand" required="true">
+							<option ng-repeat="option in availableApparel" value="{{option.id}}">{{option.brand}}</option>
+						</select>
+						<div>{{formData.styleCode}}</div>
 					</div>
 
 					<div class="form-group">
 						<label for="color">Color:</label>
-						<input type="color" ng-model="formData.colorCode" class="form-control" id="color">
+						<select ng-model="formData.colorCode" class="form-control" id="color" placeholder="Select a color" required="true">
+							<option ng-repeat="colors in availableApparel[apparelId-1].color_codes.split(';')" value="{{colors.split(':')[0]}}">{{colors.split(':')[2]}}</option>
+						</select>
 						<div>{{formData.colorCode}}</div>
 					</div>
 					
 					<div class="form-group">
 						<label for="size">Size:</label>
 						<select ng-model="formData.sizeCode" class="form-control" id="size" placeholder="Select a size" required="true">
-							<option ng-repeat="option in apparelSizes" value="{{option.id}}">{{option.size}}</option>
+							<option ng-repeat="sizes in availableApparel[apparelId-1].size_codes.split(';')" value="{{sizes.split(':')[0]}}">{{sizes.split(':')[1]}}</option>
 						</select>
 						<div>{{formData.sizeCode}}</div>
 					</div>
@@ -36,7 +41,8 @@ html.
 						<input type="number" ng-model="fromData.quantity" class="form-control" id="quantity" placeholder="0" min="0" required="true">
 					</div>
 					<div>{{formData.quantity}}</div>
-					<button type="submit" ng-click="{{quote}}"class="btn btn-default">Submit</button>
+					<button type="submit" ng-click="getAvailableApparel()"class="btn btn-default">Submit</button>
+					<div>{{availableApparel}}</div>
 				</form>
 			</div>
 		</div>		

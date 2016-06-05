@@ -4,6 +4,9 @@
 angular.module('myApp.controllers', []).
 	controller('AppCtrl', function ($scope, $http) {
 		$scope.styleCode;
+		$scope.apparelId;
+		$scope.brands;
+		$scope.availableApparel;
 		$scope.chosenColor;
 		$scope.apparelSizes = [
 			{id:1, size:"2XS"},
@@ -29,11 +32,26 @@ angular.module('myApp.controllers', []).
 		$scope.quote = function(){
 			$http.post("/api/quote", $scope.formData)
 			.success(function(data){
-				
+				$scope.price = data;
 			})
 			.error(function(data){
 
 			});
+		};
+
+		$scope.getAvailableApparel = function(){
+			$http.get("/api/apparel/"+ $scope.formData.styleCode)
+			.success(function(data){
+				console.log(data);
+				$scope.availableApparel = data;
+			})
+			.error(function(data){
+				console.log(data);
+			})
+		};
+
+		$scope.getAvailableColors = function(){
+
 		}
 		
 	});
