@@ -8,41 +8,38 @@ html.
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	</head>
 	<body>
-		<div ng-app="myApp.controllers" ng-controller="AppCtrl">
+		<div ng-app="myApp.controllers" ng-controller="AppCtrl" ng-cloak>
 			<div class="container">
-			<h2>Vertical (basic) form</h2>
+			<div style="color:white"><h2>Fresh Prints Quote Generator</h2></div>
+			<div style="color:white"><h2>Quote: ${{price}} </h2></div>
 				<form role="form">
 					<div class="form-group">
-						<label for="brand">Brand:</label>
-						<select ng-model="apparelId" ng-change=""class="form-control" id="brand" placeholder="Select a brand" required="true">
+						<label for="brand" style="color:white">Brand:</label>
+						<select ng-model="apparelId" class="form-control" id="brand" placeholder="Select a brand" required="true">
 							<option ng-repeat="option in availableApparel" value="{{option.id}}">{{option.brand}}</option>
 						</select>
-						<div>{{formData.styleCode}}</div>
 					</div>
 
 					<div class="form-group">
-						<label for="color">Color:</label>
+						<label for="color" style="color:white">Color:</label>
 						<select ng-model="formData.colorCode" class="form-control" id="color" placeholder="Select a color" required="true">
 							<option ng-repeat="colors in availableApparel[apparelId-1].color_codes.split(';')" value="{{colors.split(':')[0]}}">{{colors.split(':')[2]}}</option>
 						</select>
-						<div>{{formData.colorCode}}</div>
 					</div>
 					
 					<div class="form-group">
-						<label for="size">Size:</label>
+						<label for="size" style="color:white">Size:</label>
 						<select ng-model="formData.sizeCode" class="form-control" id="size" placeholder="Select a size" required="true">
 							<option ng-repeat="sizes in availableApparel[apparelId-1].size_codes.split(';')" value="{{sizes.split(':')[0]}}">{{sizes.split(':')[1]}}</option>
 						</select>
-						<div>{{formData.sizeCode}}</div>
 					</div>
 
 					<div class="form-group">
-						<label for="quantity">Quantity:</label>
-						<input type="number" ng-model="fromData.quantity" class="form-control" id="quantity" placeholder="0" min="0" required="true">
+						<label for="quantity" style="color:white">Quantity:</label>
+						<input type="number" ng-model="formData.quantity" class="form-control" id="quantity" placeholder="1" min="0" required="true">
 					</div>
-					<div>{{formData.quantity}}</div>
-					<button type="submit" ng-click="getAvailableApparel()"class="btn btn-default">Submit</button>
-					<div>{{availableApparel}}</div>
+					<button type="submit" ng-click="quote()"class="btn btn-default">Submit</button>
+					
 				</form>
 			</div>
 		</div>		

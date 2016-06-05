@@ -3,46 +3,27 @@
 /* Controller */
 angular.module('myApp.controllers', []).
 	controller('AppCtrl', function ($scope, $http) {
-		$scope.styleCode;
 		$scope.apparelId;
-		$scope.brands;
 		$scope.availableApparel;
-		$scope.chosenColor;
-		$scope.apparelSizes = [
-			{id:1, size:"2XS"},
-			{id:2, size:"XS"},
-			{id:3, size:"S"},
-			{id:4, size:"M"},
-			{id:5, size:"L"},
-			{id:6, size:"XL"},
-			{id:7, size:"2XL"},
-			{id:8, size:"3XL"},
-			{id:9, size:"4XL"}
-		];
-		$scope.formData = [
-			{styleCode:0},
-			{colorCode:0},
-			{sizeCode:0},
-			{quantity:0}
-		]
-		$scope.chosenSize;
+		$scope.formData = {};
 		$scope.quantity;
 		$scope.price = 0;
 
-		$scope.quote = function(){
+		$scope.quote = function(){//gets the quote price
+			$scope.formData.styleCode = $scope.availableApparel[$scope.apparelId-1].style_code;
+			$scope.formData.weight = $scope.availableApparel[$scope.apparelId-1].weight;
 			$http.post("/api/quote", $scope.formData)
 			.success(function(data){
 				$scope.price = data;
 			})
 			.error(function(data){
-
+				console.log(data);
 			});
 		};
 
-		$scope.getAvailableApparel = function(){
+		var getAvailableApparel = function(){//gets all the apparel in the db
 			$http.get("/api/apparel/"+ $scope.formData.styleCode)
 			.success(function(data){
-				console.log(data);
 				$scope.availableApparel = data;
 			})
 			.error(function(data){
@@ -50,8 +31,6 @@ angular.module('myApp.controllers', []).
 			})
 		};
 
-		$scope.getAvailableColors = function(){
-
-		}
+		getAvailableApparel();//called before page content finishes loading
 		
 	});
